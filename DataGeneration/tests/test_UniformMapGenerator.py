@@ -1,6 +1,8 @@
 import unittest
-from UniformMapGenerator import UniformMapGenerator
+
 import pandas
+
+from RTAHeatMap.DataGeneration.UniformMapGenerator import UniformMapGenerator
 
 
 class TestUniformMapGenerator(unittest.TestCase):
@@ -39,8 +41,8 @@ class TestUniformMapGenerator(unittest.TestCase):
     def test_empty_out_dataframe_has_correct_column_names(self):
         generator = UniformMapGenerator()
         dataframe = generator.instantiate_output_dataframe(20)
-        self.assertEqual(dataframe.columns[0], 'addr_lat')
-        self.assertEqual(dataframe.columns[1], 'addr_lon')
+        self.assertEqual(dataframe.columns[0], 'latitude')
+        self.assertEqual(dataframe.columns[1], 'longitude')
 
     # get_next_coordinate tests
     def test_get_next_coordinate_first_two(self):
@@ -75,3 +77,19 @@ class TestUniformMapGenerator(unittest.TestCase):
                                                          6, 20,
                                                          1, 1)
         self.assertEqual(len(dataframe), 150, "Output length should be 150")
+
+    def test_get_uniform_map_simple_latitude_is_correct(self):
+        generator = UniformMapGenerator()
+        df = generator.get_uniform_coordinate_map(1, 2, 1, 2, 1, 1)
+        self.assertEqual(1, df.iloc[0, 0])
+        self.assertEqual(1, df.iloc[1, 0])
+        self.assertEqual(2, df.iloc[2, 0])
+        self.assertEqual(2, df.iloc[3, 0])
+
+    def test_get_uniform_map_simple_longitude_is_correct(self):
+        generator = UniformMapGenerator()
+        df = generator.get_uniform_coordinate_map(1, 2, 1, 2, 1, 1)
+        self.assertEqual(1, df.iloc[0, 1])
+        self.assertEqual(2, df.iloc[1, 1])
+        self.assertEqual(1, df.iloc[2, 1])
+        self.assertEqual(2, df.iloc[3, 1])

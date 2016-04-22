@@ -1,3 +1,6 @@
 dbfread
 pandas
 numpy
+requests
+mock
+
